@@ -1,0 +1,27 @@
+name: 'Create pull request'
+description: 'Creates a pull request, assign users and labels'
+inputs:
+  repo-token:
+    description: 'Must be able to read all members of organization'
+    required: true
+  base:
+    description: 'Name of the destination branch'
+    required: true
+  branch:
+    description: 'Name of the source branch'
+    required: true
+  title:
+    description: 'Title of the pull request'
+    required: true
+  team-reviewers:
+    description: 'List of comma-separated names of teams. All users contained in these teams will be individually asked for a review'
+    required: false
+  user-reviewers:
+    description: 'List of comma-separated logins of users'
+    required: false
+  labels:
+    description: 'List of comma-separated label names. If one does not exist, it will be created'
+    required: false
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
