@@ -8566,6 +8566,15 @@ async function getMembers(owner, teams, users) {
   return userIds;
 }
 
+async function markReadyToReview(currentPullRequestId) {
+  await ghClient.graphql(`
+  mutation MarkReadyToReview {
+    markPullRequestReadyForReview(input: {pullRequestId: "${currentPullRequestId}"}) {
+      clientMutationId
+    }
+  }`, {});
+}
+
 async function personnalizePullRequest(currentPullRequestId, labelIds, userIds) {
   await ghClient.graphql(`
   mutation PersonnalizePullRequest {
@@ -8586,7 +8595,7 @@ async function createPullRequest(repoId, base, branch, title, reviewers, labels)
   let result = await ghClient.graphql(`
   mutation CreatePullRequest {
     createPullRequest(
-      input: {repositoryId: "${repoId}", baseRefName: "${base}", headRefName: "${branch}", title: "${title}"}) 
+      input: {repositoryId: "${repoId}", baseRefName: "${base}", headRefName: "${branch}", title: "${title}", draft: true}) 
       {
         pullRequest {
           id
@@ -8606,6 +8615,7 @@ async function createPullRequest(repoId, base, branch, title, reviewers, labels)
 
   if (continueFlow) {
     await personnalizePullRequest(result.createPullRequest.pullRequest.id, labels, reviewers);
+    await markReadyToReview(result.createPullRequest.pullRequest.id);
   }
 }
 
