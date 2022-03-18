@@ -8620,15 +8620,14 @@ async function createPullRequest(repoId, base, branch, title, reviewers, labels)
 }
 
 async function run() {
-  const context = await github.context;
   let repoInfo = core.getInput('repo');
   let owner = repoInfo.split('/')[0];
   let repo = repoInfo.split('/')[1];
   let title = core.getInput('title');
   let teamReviewers = core.getInput('team-reviewers').split(',');
   let userReviewers = core.getInput('user-reviewers').split(',');
-  let baseBranch = core.getInput('base');
-  let sourceBranch = core.getInput('branch');
+  let baseBranch = core.getInput('destination');
+  let sourceBranch = core.getInput('source');
   let labels = core.getInput('labels').split(',');
 
   var result = await getRepoAndLabels(owner, repo, labels);
