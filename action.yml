@@ -4,10 +4,13 @@ inputs:
   repo-token:
     description: 'Must be able to read all members of organization'
     required: true
-  base:
+  repo:
+    description: 'owner/repo-name'
+    required: true
+  destination:
     description: 'Name of the destination branch'
     required: true
-  branch:
+  source:
     description: 'Name of the source branch'
     required: true
   title:
