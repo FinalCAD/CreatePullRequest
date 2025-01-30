@@ -3,28 +3,33 @@ description: 'Creates a pull request, assign users and labels'
 inputs:
   repo-token:
     description: 'Must be able to read all members of organization'
-    required: true
+    default: ''
   repo:
     description: 'owner/repo-name'
-    required: true
+    default: ''
   destination:
     description: 'Name of the destination branch'
-    required: true
+    default: ''
   source:
     description: 'Name of the source branch'
-    required: true
+    default: ''
   title:
     description: 'Title of the pull request'
-    required: true
+    default: ''
   team-reviewers:
     description: 'List of comma-separated names of teams. All users contained in these teams will be individually asked for a review'
-    required: false
+    default: ''
   user-reviewers:
     description: 'List of comma-separated logins of users'
-    required: false
+    default: ''
   labels:
     description: 'List of comma-separated label names. If one does not exist, it will be created'
-    required: false
+    default: ''
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: 'composite'
+  steps:
+    - name: Deprecated version of FinalCAD/CreatePullRequestAction
+      shell: bash
+      run: |
+        echo '::error title=Deprecated version of FinalCAD/CreatePullRequestAction::This version of FinalCAD/CreatePullRequestAction is deprecated use `v1` instead.'
+        exit 1
